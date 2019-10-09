@@ -1,5 +1,12 @@
 def task_1():
-    return ''
+    
+    a = "\n"
+    
+    for i in range(1,10):
+
+        a = a + str(i) * i + "\n"
+        
+    return a
 
 
 assert task_1() == '''
@@ -13,3 +20,4 @@ assert task_1() == '''
 88888888
 999999999
 '''
+
