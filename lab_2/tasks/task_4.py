@@ -10,6 +10,23 @@ def count_letters(msg):
     """
     pass
 
+    unq = []
+
+    msgsplt = list(msg)
+
+    for i in msgsplt:
+        if (i in unq) == 0:
+            unq.append(i)
+    unq = sorted(unq)
+    num = [0] * len(unq)
+
+    for j in range(0,len(msgsplt)):
+        for k in range(0,len(unq)):
+            if msgsplt[j] == unq[k]:
+                num[k] =  num[k] + 1
+
+    return(unq[num.index(max(num))],max(num))
+
 
 if __name__ == '__main__':
     msg = 'Abrakadabra'

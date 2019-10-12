@@ -16,6 +16,22 @@ def counting_sort(values, _max, _min=0):
     """
     pass
 
+    hist = [0]*(_max + 1)
+    sor = [0]*len(values)
+
+    for i in range(0, len(values)):
+        hist[values[i]] +=1
+
+    m = 0
+    for j in range(0, len(hist)):
+        for ii in range(0,hist[j]):
+            sor[m] = j
+            m += 1
+
+    return sor
+
+
+
 
 if __name__ == '__main__':
     assert counting_sort(
@@ -23,4 +39,3 @@ if __name__ == '__main__':
         100,
     ) == [1, 2, 2, 3, 4, 33, 53, 65, 97, 99]
 
-##

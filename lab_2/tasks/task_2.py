@@ -1,6 +1,6 @@
 def stack_operation(stack_commands):
     """
-    Funkcja przyjmuję listę jedno i dwu elementowych krotek - operacji na stosie.
+    Funkcja przyjmuje listę jedno i dwu elementowych krotek - operacji na stosie.
     Pierwszy element krotki to operacja, drugi wartość (opcjonalnie). Operacje:
     push - dodaj element do stosu
     pop - usuń element ze stosu
@@ -13,6 +13,18 @@ def stack_operation(stack_commands):
     :rtype: list
     """
     pass
+    li = []
+    maxlist = []
+
+    for elem in commands:
+        if elem[0] == 'push':
+            li.append(elem[1])
+        elif elem[0] == 'pop':
+            li.pop()
+        elif elem[0] == 'show_max':
+            maxlist.append(max(li))
+
+    return maxlist
 
 
 if __name__ == "__main__":
