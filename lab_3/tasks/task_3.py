@@ -19,19 +19,6 @@ from datetime import datetime
 import pytz
 
 
-def sort_dates(date_str, date_format=''):
-    """
-    Parses and sorts given message to list of datetimes objects descending.
-
-    :param date_str: log of events in time
-    :type date_str: str
-    :param date_format: event format
-    :type date_format: str
-    :return: sorted desc list of utc datetime objects
-    :rtype: list
-    """
-
-
 def group_dates(dates):
     """
     Groups list of given days day by day.
@@ -51,21 +38,8 @@ def group_dates(dates):
             curr_date = elem.strftime("%Y-%m-%d")
             out_str = out_str + "\n" + "    ----" + "\n    " + curr_date
         out_str = out_str + "\n" + "    \t" + elem.strftime("%H:%M:%S")
-    print(out_str)
+
     return out_str
-
-def format_day(day, events):
-    """
-    Formats message for one day.
-
-    :param day: Day object.
-    :type day: datettime.datetime
-    :param events: List of events of given day
-    :type events: list
-    :return: parsed message for day
-    :rtype: str
-    """
-    pass
 
 
 def date_in_utc(date):
@@ -97,10 +71,6 @@ def parse_dates(date_str, date_format=''):
     return dates_grouped
 
 
-
-
-
-
 if __name__ == '__main__':
     dates = """
     Sun 10 May 2015 13:54:36 -0700
@@ -108,13 +78,6 @@ if __name__ == '__main__':
     Sat 02 May 2015 19:54:36 +0530
     Fri 01 May 2015 13:54:36 -0000
     """
-
-    # assert sort_dates(dates) == [
-    #     datetime.datetime(2015, 5, 10, 20, 54, 36, tzinfo=datetime.timezone.utc),
-    #     datetime.datetime(2015, 5, 10, 13, 54, 36, tzinfo=datetime.timezone.utc),
-    #     datetime.datetime(2015, 5, 2, 14, 24, 36, tzinfo=datetime.timezone.utc),
-    #     datetime.datetime(2015, 5, 1, 13, 54, 36, tzinfo=datetime.timezone.utc),
-    # ]
 
     assert parse_dates(dates) == """2015-05-10
     \t20:54:36
