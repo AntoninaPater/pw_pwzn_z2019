@@ -5,7 +5,7 @@ Uzupełnij funckję parse_dates tak by zwracała przygotowaną wiadomość
 z posortowanymi zdarzeniami.
 Funkcja przyjmuje ciag zdarzeń (zapisanych w formie timestampu w dowolnej strefie czasowej),
 przetwarza je na zdarzenia w strefie czasowej UTC i sortuje.
-Posortowane zdarzenia są grupowane na dni i wypisywane od najnowszych do najstarszych.
+Posortowane zdarzenia są grupowane na dni i wypisywane od najnowszych do naj+starszych.
 
 Na 1pkt. Uzupełnij funkcję sort_dates, która przyjmuje dwa parametry:
 - log (wielolinijkowy ciąg znaków z datami) zdarzeń
@@ -15,7 +15,8 @@ Zwraca listę posortowanych obiektów typu datetime w strefie czasowej UTC.
 Funkcje group_dates oraz format_day mają pomoc w grupowaniu kodu.
 UWAGA: Proszę ograniczyć użycie pętli do minimum.
 """
-import datetime
+from datetime import datetime
+import pytz
 
 
 def sort_dates(date_str, date_format=''):
@@ -40,6 +41,18 @@ def group_dates(dates):
     :return:
     """
 
+    curr_date = dates[0].strftime("%Y-%m-%d")
+    out_str = curr_date
+
+    for elem in dates:
+
+
+        if elem.strftime("%Y-%m-%d") != curr_date:
+            curr_date = elem.strftime("%Y-%m-%d")
+            out_str = out_str + "\n" + "    ----" + "\n    " + curr_date
+        out_str = out_str + "\n" + "    \t" + elem.strftime("%H:%M:%S")
+    print(out_str)
+    return out_str
 
 def format_day(day, events):
     """
@@ -55,6 +68,13 @@ def format_day(day, events):
     pass
 
 
+def date_in_utc(date):
+    date = date.strip()
+    date_dt = datetime.strptime(date, "%a %d %b %Y %H:%M:%S %z")
+    date_utc = date_dt.astimezone(pytz.timezone('UTC'))
+    return date_utc
+
+
 def parse_dates(date_str, date_format=''):
     """
     Parses and groups (in UTC) given list of events.
@@ -66,29 +86,42 @@ def parse_dates(date_str, date_format=''):
     :return: parsed events
     :rtype: str
     """
-    pass
+
+    date_str = date_str.strip()
+    date_list = date_str.split('\n')
+    date_in_dt_format = list(map(date_in_utc, date_list))
+    date_in_dt_format.sort(reverse=True)
+
+    dates_grouped = group_dates(date_in_dt_format)
+
+    return dates_grouped
 
 
-dates = """
-Sun 10 May 2015 13:54:36 -0700
-Sun 10 May 2015 13:54:36 -0000
-Sat 02 May 2015 19:54:36 +0530
-Fri 01 May 2015 13:54:36 -0000
-"""
 
-assert sort_dates(dates) == [
-    datetime.datetime(2015, 5, 10, 20, 54, 36, tzinfo=datetime.timezone.utc),
-    datetime.datetime(2015, 5, 10, 13, 54, 36, tzinfo=datetime.timezone.utc),
-    datetime.datetime(2015, 5, 2, 14, 24, 36, tzinfo=datetime.timezone.utc),
-    datetime.datetime(2015, 5, 1, 13, 54, 36, tzinfo=datetime.timezone.utc),
-]
 
-assert parse_dates(dates) == """2015-05-10
-\t20:54:36
-\t13:54:36
-----
-2015-05-02
-\t14:24:36
-----
-2015-05-01
-\t13:54:36"""
+
+
+if __name__ == '__main__':
+    dates = """
+    Sun 10 May 2015 13:54:36 -0700
+    Sun 10 May 2015 13:54:36 -0000
+    Sat 02 May 2015 19:54:36 +0530
+    Fri 01 May 2015 13:54:36 -0000
+    """
+
+    # assert sort_dates(dates) == [
+    #     datetime.datetime(2015, 5, 10, 20, 54, 36, tzinfo=datetime.timezone.utc),
+    #     datetime.datetime(2015, 5, 10, 13, 54, 36, tzinfo=datetime.timezone.utc),
+    #     datetime.datetime(2015, 5, 2, 14, 24, 36, tzinfo=datetime.timezone.utc),
+    #     datetime.datetime(2015, 5, 1, 13, 54, 36, tzinfo=datetime.timezone.utc),
+    # ]
+
+    assert parse_dates(dates) == """2015-05-10
+    \t20:54:36
+    \t13:54:36
+    ----
+    2015-05-02
+    \t14:24:36
+    ----
+    2015-05-01
+    \t13:54:36"""
