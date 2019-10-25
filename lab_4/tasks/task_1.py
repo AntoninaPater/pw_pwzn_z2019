@@ -7,6 +7,8 @@ Część 2 (1 pkt): jeżeli drugi argument działania nie jest podany (None)
 użyj wartość z pamięci kalkulatora. Obsłuż przypadki skrajne.
 """
 
+# property nie powinno zmieniac właściwości obiektu
+# memory nie edytowanie w prosty sposób (własnością)
 
 class Calculator:
     def __init__(self):
@@ -15,6 +17,9 @@ class Calculator:
         # ostatniej wykonanej operacji, tak by metoda memorize przypisywała
         # wynik zapisany w tym atrybucie
         self._short_memory = None
+
+    @property
+    ####
 
     def run(self, operator, arg1, arg2):
         """
@@ -29,7 +34,21 @@ class Calculator:
         :return: result of operation
         :rtype: float
         """
-        raise NotImplementedError
+        # raise NotImplementedError
+
+        if operator == "+":
+            result = arg1 + arg2
+        elif operator == "-":
+            result = arg1 - arg2
+        elif operator == "*":
+            result = arg1 * arg2
+        elif operator == "/":
+            result = arg1 / arg2
+
+        return result
+
+
+
 
     def memorize(self):
         """Saves last operation result to memory."""

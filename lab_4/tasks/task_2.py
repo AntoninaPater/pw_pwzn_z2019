@@ -10,6 +10,7 @@ z dwóch punktów.
 Wszystkie metody sprawdzają wymiar.
 """
 
+# jak jest inny wymiar to robić błąd
 
 class Vector:
     dim = None  # Wymiar vectora
