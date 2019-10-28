@@ -18,10 +18,7 @@ class Calculator:
         # wynik zapisany w tym atrybucie
         self._short_memory = None
 
-    @property
-    ####
-
-    def run(self, operator, arg1, arg2):
+    def run(self, operator, arg1, arg2="Nic"):
         """
         Returns result of given operation.
 
@@ -34,17 +31,22 @@ class Calculator:
         :return: result of operation
         :rtype: float
         """
-        # raise NotImplementedError
+        if arg2 == "Nic":
+            arg2 = self.memory
+        if arg2 == None:
+            print("brak drugiego argumentu")
+            result = None
+        else:
+            if operator == "+":
+                result = arg1 + arg2
+            elif operator == "-":
+                result = arg1 - arg2
+            elif operator == "*":
+                result = arg1 * arg2
+            elif operator == "/":
+                result = arg1 / arg2
 
-        if operator == "+":
-            result = arg1 + arg2
-        elif operator == "-":
-            result = arg1 - arg2
-        elif operator == "*":
-            result = arg1 * arg2
-        elif operator == "/":
-            result = arg1 / arg2
-
+        self._short_memory = result
         return result
 
 
@@ -52,15 +54,19 @@ class Calculator:
 
     def memorize(self):
         """Saves last operation result to memory."""
-        raise NotImplementedError
+        self.memory = self._short_memory
+
 
     def clean_memory(self):
         """Cleans memorized value"""
-        raise NotImplementedError
+        self.memory = None
 
     def in_memory(self):
         """Prints memorized value."""
-        print(f"Zapamiętana wartość: {self.memory}")
+        if self.memory == None:
+            print("Nie ma nic w pamięci")
+        else:
+            print(f"Zapamiętana wartość: {self.memory}")
 
 
 if __name__ == '__main__':
