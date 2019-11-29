@@ -1,5 +1,6 @@
 import numpy as np
 
+# obecnosc
 
 def least_sq(xy):
     """
