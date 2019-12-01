@@ -1,6 +1,5 @@
 import numpy as np
 
-# obecnosc
 
 def least_sq(xy):
     """
@@ -18,7 +17,15 @@ def least_sq(xy):
     :type xy: np.ndarray
     :return: Tuple of fitted parameters
     """
-    pass
+    x = xy[0]
+    y = xy[1]
+    n = np.size(x)
+    delta = n * np.sum(x**2) - (np.sum(x)**2)
+
+    a = (np.sum(x ** 2) * np.sum(y) - np.sum(x) * np.sum(x*y)) / delta
+    b = (n * np.sum(x*y) - np.sum(x) * np.sum(y)) / delta
+
+    return a, b
 
 
 if __name__ == '__main__':
@@ -222,4 +229,4 @@ if __name__ == '__main__':
                         98.00343145869182,
                         98.9982680433363,
                         100.00083927400149]])
-    np.testing.assert_allclose(least_sq(points), (1, -1), atol=0.1)
+    np.testing.assert_allclose(least_sq(points), (1, 1), atol=0.1)

@@ -23,7 +23,18 @@ def calculate_neighbours(board):
     :type board: np.ndarray
     :param periodic
     """
-    pass
+    neighbours_count = np.zeros(shape=board.shape, dtype=np.uint8)
+
+    neighbours_count[:-1, :] += board[1:, :]
+    neighbours_count[1:, :] += board[:-1, :]
+    neighbours_count[:, :-1] += board[:, 1:]
+    neighbours_count[:, 1:] += board[:, :-1]
+    neighbours_count[:-1, :-1] += board[1:, 1:]
+    neighbours_count[1:, 1:] += board[: -1, :-1]
+    neighbours_count[:-1, 1:] += board[1:, :-1]
+    neighbours_count[1:, : -1] += board[:-1, 1:]
+
+    return neighbours_count
 
 
 def iterate(board):
@@ -44,33 +55,38 @@ def iterate(board):
     :return: next board state
     :rtype: np.ndarray
     """
-    pass
+    neighbours = calculate_neighbours(board)
+
+    births = (neighbours == 3) & (board == False)
+    stays = board & (2 <= neighbours) & (3 >= neighbours)
+
+    new_state = births | stays
+    return new_state
 
 
 if __name__ == '__main__':
     _board = np.array([
-        [False, False, False,  True, False,  True],
-        [ True, False,  True, False, False,  True],
-        [ True,  True, False,  True,  True,  True],
-        [False,  True,  True, False, False,  True],
-        [False, False, False,  True, False, False],
-        [False,  True,  True,  True, False,  True]
+        [False, False, False, True, False, True],
+        [True, False, True, False, False, True],
+        [True, True, False, True, True, True],
+        [False, True, True, False, False, True],
+        [False, False, False, True, False, False],
+        [False, True, True, True, False, True]
     ])
     print(iterate(_board))
-    assert calculate_neighbours(_board) == np.array([
-        [1, 2, 2, 1, 3, 1,],
-        [2, 4, 3, 4, 6, 3,],
-        [3, 5, 5, 3, 4, 3,],
-        [3, 3, 4, 4, 5, 2,],
-        [2, 4, 6, 3, 4, 2,],
-        [1, 1, 3, 2, 3, 0,],
-    ])
-    assert iterate(_board) == np.array([
-        [False, False, False, False, False, False],
-        [ True, False,  True, False, False,  True],
-        [ True, False, False,  True, False,  True],
-        [False,  True, False, False, False,  True],
-        [False, False, False,  True, False, False],
-        [False, False,  True,  True, False, False],
-    ])
-
+    assert (calculate_neighbours(_board) == np.array([
+        [1, 2, 2, 1, 3, 1, ],
+        [2, 4, 3, 4, 6, 3, ],
+        [3, 5, 5, 3, 4, 3, ],
+        [3, 3, 4, 4, 5, 2, ],
+        [2, 4, 6, 3, 4, 2, ],
+        [1, 1, 3, 2, 3, 0, ],
+    ])).all()
+    assert (iterate(_board) == np.array([
+        [False, False, False, False, True, False],
+        [True, False, True, False, False, True],
+        [True, False, False, True, False, True],
+        [True, True, False, False, False, True],
+        [False, False, False, True, False, False],
+        [False, False, True, True, True, False],
+    ])).all()
