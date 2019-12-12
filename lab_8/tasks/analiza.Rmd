@@ -1,0 +1,77 @@
+```{python}
+import numpy as np
+from tools.fit_funcs import least_sq
+import matplotlib.pyplot as plt
+```
+
+```{python}
+data = np.genfromtxt(r"data\input01.txt",dtype=np.float, delimiter=',', skip_header=1)
+x = data[:,0]
+y = data[:,1]
+err = data[:,2]
+```
+
+```{python}
+a,b = least_sq(data[:,:2].T)
+fitted_y  = a * x + b
+```
+
+```{python}
+low_uncert_data = data[err/y < 0.05, :]
+high_uncert_data = data[err/y >= 0.05, :]
+print(high_uncert_data)
+
+lu_x = low_uncert_data[:,0]
+lu_y = low_uncert_data[:,1]
+lu_err = low_uncert_data[:,2]
+
+lu_a, lu_b = least_sq(low_uncert_data[:,:2].T)
+lu_fitted_y = lu_a * lu_x  + lu_b
+
+
+hu_x = high_uncert_data[:,0]
+hu_y = high_uncert_data[:,1]
+hu_err = high_uncert_data[:,2]
+```
+
+```{python}
+fig = plt.figure()
+ax = fig.add_axes([0.1, 0.1, 0.8, 0.8])
+ax.errorbar(x=hu_x,
+           y=hu_y,
+           yerr=hu_err,
+            marker='v',
+            color='r',
+            markersize=2,
+            ls='none')
+ 
+ax.errorbar(x=lu_x,
+           y=lu_y,
+           yerr=lu_err,
+            marker='s',
+            color='k',
+            markersize=2,
+            ls='none')
+
+ax.plot(x, fitted_y,
+          label='all',
+          color='b',
+          linestyle='--')
+
+ax.plot(lu_x, lu_fitted_y,
+          label=r'$\Delta < 5\%$',
+          color='g',
+          linestyle='--')
+
+ax.legend()
+fig.savefig('fitted_input01.png', dpi=200)
+
+```
+
+```{python}
+
+```
+
+```{python}
+
+```
