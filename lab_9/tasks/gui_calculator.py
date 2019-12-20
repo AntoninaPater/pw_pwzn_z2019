@@ -3,7 +3,7 @@ from functools import partial
 
 from lab_9.tools.calculator import Calculator
 
-# obecnosc
+
 class CalculatorGUI(tk.Frame):
     def __init__(self, master=None, *args, **kwargs):
         tk.Frame.__init__(self, master, *args, **kwargs)
