@@ -30,6 +30,7 @@ def concat_data(
     data.to_csv(str(path) + '.csv', index=False)
 
 
+
 if __name__ == '__main__':
     concat_data('weather_data/523920_2017_03')
     assert filecmp.cmp(
