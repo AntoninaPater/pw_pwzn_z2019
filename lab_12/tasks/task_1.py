@@ -1,7 +1,7 @@
 def generate_fibonacci(n=100):
     pass
 
-
+# obecnosc
 if __name__ == '__main__':
     assert list(generate_fibonacci(1)) == [0]
     assert list(generate_fibonacci(2)) == [0, 1]
