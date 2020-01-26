@@ -1,7 +1,13 @@
 def generate_fibonacci(n=100):
-    pass
+    if not isinstance(n, int) or n < 1:
+        raise RuntimeError
+    fib_a = 0
+    fib_b = 1
+    for i in range(n):
+        yield fib_a
+        fib_a, fib_b = fib_b, fib_a + fib_b
 
-# obecnosc
+
 if __name__ == '__main__':
     assert list(generate_fibonacci(1)) == [0]
     assert list(generate_fibonacci(2)) == [0, 1]
